@@ -30,6 +30,10 @@ namespace Nethermind.Runner.Ethereum.Steps
         public async Task Execute(CancellationToken cancellationToken)
         {
             IJsonRpcConfig jsonRpcConfig = _api.Config<IJsonRpcConfig>();
+            IKeyStoreConfig keyStoreConfig = _api.Config<IKeyStoreConfig>();
+            // updating jwt-secret path based on data directory.
+            jsonRpcConfig.JwtSecretFile = String.Concat(keyStoreConfig.KeyStoreDirectory,"/jwt-secret");
+            
             ILogger logger = _api.LogManager.GetClassLogger();
 
             if (jsonRpcConfig.Enabled)
